@@ -1,9 +1,16 @@
+'''
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* awscli.py
+*   Author: Charan Nareddula  (charan9331@gmail.com)
+*
+'''
 import boto3
 import time
 import pprint
 
-AWS_ACCESS_KEY_ID = "AKIA3HNPFT27M5BCNN5N"
-AWS_SECRET_ACCESS_KEY = "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"
 dict ={}
 def printallvms():
     print(dict )
@@ -13,50 +20,36 @@ def printvm(id):
     
     
 def main():
-    session = boto3.Session(
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY, region_name='us-east-2')
+
+    session = boto3.Session( region_name='us-east-2')
     
     #ec2 = session.resource('ec2', region_name='us-east-2')
     #ec2_re=session.resource(service_name= "ec2")  
     ec2 =session.client(service_name="ec2")
     
     awsdict = ec2.describe_instances();
-    
-    for each_in in awsdict['Reservations']:
-        print("AWS instance : ",each_in)
-        pprint.pprint(each_in)
-        #print(each_in.id,each_in.state['Name'])
-        
-    '''' 
-    printallvms()
-    print ("running inifinity loop")
- 
     while True:
-        printallvms()
-        
-    
-        for instance in instances:
-            print ("AWS instance)
-            vm = dict.get(instance.id)
-           # print("inside for loop")
-            #print ('AWS', vm)
-            if vm==None:
-                dict[instance.id] = {'name': 'test', 'id':instance.id, 'state': instance.state}
-                print("adding new vm to dictionary")
-                continue
-    
-            #print("while from dict .aaa...: ",vm['state']['Name'])
-            #print(instance.state['Name'])
-            if vm['state'] != instance.state:
-                #print('both are same')
-                printvm(instance.id)
-                vm['state']= instance.state
+        print(">>")
+        input1 = input() 
+        if input1=='l':
+            count=1
+            for each_in in awsdict['Reservations']:
+                print(count,":  ",each_in['Instances'][0]['InstanceId'],";;",each_in['Instances'][0]['State'])
+                dict[str(count)]= each_in['Instances'][0]['InstanceId']
+                count=count+1
+                
+        if input1 >='1' and input1 <='9':
+            instid = (dict.get(input1))
+            print("mapping:  ",instid)
+            for each_in in awsdict['Reservations']:
+                if instid == each_in['Instances'][0]['InstanceId']:
+                    print(count,":  ",each_in['Instances'][0])
             
-        time.sleep(5)
+            
+                
+            
         
-        
-''' 
+   
         
         
 if __name__ == '__main__':

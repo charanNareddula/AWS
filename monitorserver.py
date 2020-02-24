@@ -1,8 +1,16 @@
+'''
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* monitorserver.py
+*   Author: Charan Nareddula  (charan9331@gmail.com)
+*
+'''
+
 import boto3
 import time
 
-AWS_ACCESS_KEY_ID = "AKIA3HNPFT27M5BCNN5N"
-AWS_SECRET_ACCESS_KEY = "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"
 dict ={}
 def printallvms():
     print(dict )
@@ -12,9 +20,7 @@ def printvm(id):
     
     
 def main():
-    session = boto3.Session(
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    session = boto3.Session()
     
     ec2 = session.resource('ec2', region_name='us-east-2')
     instances = ec2.instances.filter(Filters=[{'Name': 'instance-state-name', 'Values': ['running','stopped']}])
