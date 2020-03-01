@@ -12,12 +12,19 @@ import boto3
 import time
 
 dict ={}
+  
 def printallvms():
     print(dict )
     
 def printvm(id):
     print("dict value... :",dict[id])
     
+'''
+    TODO 1: Email alert when vm status changed
+    TODO 2: Notify when vm is deleted
+    
+'''
+
     
 def main():
     session = boto3.Session()
